@@ -1,3 +1,9 @@
+# Config
+config.js
+dist/
+.cache/
+src/server/public/app/
+
 # Logs
 logs
 *.log
