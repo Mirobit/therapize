@@ -16,6 +16,10 @@ const meetingSchema = new Schema({
   endat: {
     type: Date
   },
+  duration: {
+    type: Number,
+    enum: [25, 55]
+  },
   inhouse: {
     type: Boolean,
     default: true
