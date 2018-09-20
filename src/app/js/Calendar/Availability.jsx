@@ -3,6 +3,7 @@ import api from "../utils/api";
 import Slot from "./Slot";
 import { Button } from "semantic-ui-react";
 import moment from "moment";
+import { Redirect } from "react-router-dom";
 
 class Availability extends Component {
   constructor(props) {
@@ -24,14 +25,15 @@ class Availability extends Component {
 
   componentDidMount() {
     api.get(`/api/availability/`).then(result => {
-      console.log(result);
       this.setState(result);
     });
   }
 
   render() {
+    if (!this.props.user) return <Redirect to="/auth/sign-in" />;
+    if (this.props.user.role != "Therapist") return <Redirect to="/profile" />;
+
     const mappedDays = Object.keys(this.state).map(dayKey => {
-      // put that in the return statement of the render function
       let mappedDaySlots = [];
       mappedDaySlots.push(<div>{dayKey}</div>);
       mappedDaySlots = mappedDaySlots.concat(

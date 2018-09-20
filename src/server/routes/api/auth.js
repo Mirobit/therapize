@@ -46,7 +46,8 @@ router.post("/sign-in", (req, res) => {
       {
         _id: existingUser._id,
         email: existingUser.email,
-        profilePicture: existingUser.profilePicture
+        profilePicture: existingUser.profilePicture,
+        role: existingUser.role
       },
       config.SECRET_JWT_PASSPHRASE
     );

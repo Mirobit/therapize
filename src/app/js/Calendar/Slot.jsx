@@ -9,6 +9,7 @@ const Slot = ({ day, timeslot, index, handleSlotChange, removeSlot }) => {
         value={timeslot.start}
         placeholder="Start"
         key={day + index + "start"}
+        iconPosition="left"
         closable={true}
         onChange={(event, { name, value }) => handleSlotChange(day, index, "start", value)}
       />
@@ -17,6 +18,7 @@ const Slot = ({ day, timeslot, index, handleSlotChange, removeSlot }) => {
         value={timeslot.end}
         closable={true}
         placeholder="End"
+        iconPosition="left"
         key={day + index + "end"}
         onChange={(event, { name, value }) => handleSlotChange(day, index, "end", value)}
       />
