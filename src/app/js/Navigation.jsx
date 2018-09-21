@@ -23,6 +23,10 @@ const Navigation = props => {
               <Link className="link nav-link" to="/meeting">
                 Meeting
               </Link>
+              &nbsp; &nbsp; &nbsp;
+              <Link className="link nav-link" to="/match">
+                Match
+              </Link>
             </span>
           )}
         </div>

@@ -1,20 +1,31 @@
 import React, { Component } from "react";
 import api from "../utils/api";
 import Slot from "./Slot";
-import { Button } from "semantic-ui-react";
+import { Button, Message } from "semantic-ui-react";
 import moment from "moment";
 import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router";
 
 class Availability extends Component {
   constructor(props) {
     super(props);
+    if (!props.user) {
+      props.history.push("/auth/sign-in");
+    }
+    // if (props.user.role != "Therapist") {
+    //   props.history.push("/profile");
+    // }
 
     this.state = {
-      monday: [{ start: "12.00", end: "13.00" }],
-      tuesday: [{ start: "", end: "" }],
-      wensday: [{ start: "", end: "" }],
-      thursday: [{ start: "", end: "" }],
-      friday: [{ start: "", end: "" }]
+      message: "",
+      error: "",
+      data: {
+        monday: [{ start: "12.00", end: "13.00" }],
+        tuesday: [{ start: "", end: "" }],
+        wensday: [{ start: "", end: "" }],
+        thursday: [{ start: "", end: "" }],
+        friday: [{ start: "", end: "" }]
+      }
     };
 
     this._handleSlotChange = this._handleSlotChange.bind(this);
@@ -25,19 +36,32 @@ class Availability extends Component {
 
   componentDidMount() {
     api.get(`/api/availability/`).then(result => {
-      this.setState(result);
+      if (result !== false) {
+        this.setState({ data: result });
+      }
     });
   }
 
   render() {
-    if (!this.props.user) return <Redirect to="/auth/sign-in" />;
-    if (this.props.user.role != "Therapist") return <Redirect to="/profile" />;
-
-    const mappedDays = Object.keys(this.state).map(dayKey => {
+    let msgbox = "";
+    if (this.state.message !== "") {
+      msgbox = (
+        <Message compact positive>
+          {this.state.message}
+        </Message>
+      );
+    } else if (this.state.error !== "") {
+      msgbox = (
+        <Message compact negative>
+          {this.state.error}
+        </Message>
+      );
+    }
+    const mappedDays = Object.keys(this.state.data).map(dayKey => {
       let mappedDaySlots = [];
       mappedDaySlots.push(<div>{dayKey}</div>);
       mappedDaySlots = mappedDaySlots.concat(
-        this.state[dayKey].map((timeslot, index) => {
+        this.state.data[dayKey].map((timeslot, index) => {
           return (
             <Slot
               day={dayKey}
@@ -60,6 +84,7 @@ class Availability extends Component {
 
     return (
       <div>
+        {msgbox}
         {mappedDays}
         <Button primary onClick={this._update}>
           Submit
@@ -68,7 +93,7 @@ class Availability extends Component {
     );
   }
   _addSlot(day) {
-    let oldState = this.state[day];
+    let oldState = this.state.data[day];
     if (oldState.length > 0 && oldState[oldState.length - 1].end !== "") {
       const prevTime = oldState[oldState.length - 1].end.split(".");
       oldState.push({
@@ -83,39 +108,41 @@ class Availability extends Component {
       oldState.push({ start: "", end: "" });
     }
     console.log(this.state);
-    this.setState({ [day]: oldState });
+    this.setState({ data: { ...this.state.data, [day]: oldState } });
   }
 
   _removeSlot(day, index) {
     let oldState = this.state[day];
     oldState.splice(index, 1);
-    this.setState({ [day]: oldState });
+    this.setState({ data: { ...this.state.data, [day]: oldState } });
   }
 
   _handleSlotChange(day, index, type, value) {
+    console.log(day, index, type, value);
     this.setState({
-      [day]: this.state[day].map((existingSlot, existingIndex) => {
-        if (existingIndex !== index) return existingSlot;
+      data: {
+        ...this.state.data,
+        [day]: this.state.data[day].map((existingSlot, existingIndex) => {
+          if (existingIndex !== index) return existingSlot;
 
-        const changedSlot = { ...existingSlot };
-        changedSlot[type] = value;
-        return changedSlot;
-      })
+          const changedSlot = { ...existingSlot };
+          changedSlot[type] = value;
+          return changedSlot;
+        })
+      }
     });
-    console.log(this.state);
+    console.log(this.state.data);
   }
 
   _update() {
-    // this.setState({
-    //   error: ""
-    // });
-
     api
-      .post(`/api/availability/update`, { data: this.state })
+      .post(`/api/availability/update`, { data: this.state.data })
       .then(data => {
         if (data.result) {
+          this.setState({ message: "Calendar successfuly updated!" });
           console.log("success");
         } else {
+          this.setState({ error: "Calendar updated failed!" });
           console.log("failure");
         }
       })
@@ -127,4 +154,4 @@ class Availability extends Component {
   }
 }
 
-export default Availability;
+export default withRouter(Availability);

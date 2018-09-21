@@ -16,10 +16,16 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ["Male", "Female", "Other"]
+    enum: ["male", "female", "other"]
   },
   age: {
     type: Number
+  },
+  name: {
+    type: String
+  },
+  description: {
+    type: String
   },
   country: {
     type: String
@@ -29,7 +35,11 @@ const userSchema = new Schema({
     default: false
   },
   diagnose: {
-    type: String
+    type: [String]
+  },
+  skills: {
+    type: [String],
+    enum: ["drepession", "anxiety", "stress", "anorexia"]
   },
   available: {
     type: Boolean,

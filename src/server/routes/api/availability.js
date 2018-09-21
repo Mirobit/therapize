@@ -5,10 +5,10 @@ const Slot = require("../../models/Slot");
 
 router.get("/", (req, res) => {
   Slot.findOne({ therapist: req.user._id }, (error, entry) => {
-    if (error) {
-      next(error);
+    if (error || entry == null) {
+      res.send(false);
     } else {
-      console.log(entry.slots);
+      console.log(entry);
       res.send(entry.slots);
     }
   });

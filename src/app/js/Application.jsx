@@ -8,6 +8,7 @@ import Home from "./Home";
 import Navigation from "./Navigation";
 import Availability from "./Calendar/Availability";
 import Profile from "./Profile";
+import Match from "./Match";
 import NotFound from "./NotFound";
 import api from "./utils/api";
 
@@ -35,6 +36,7 @@ class Application extends React.Component {
           <Switch>
             <Route exact path="/" render={() => <Home user={this.state.user} />} />
             <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />
+            <Route exact path="/match" render={() => <Match user={this.state.user} />} />
             <Route
               exact
               path="/availability"
