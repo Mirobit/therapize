@@ -53,6 +53,18 @@ const userSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: "User"
   },
+  slots: {
+    monday: [{}],
+    tuesday: [{}],
+    wensday: [{}],
+    thursday: [{}],
+    friday: [{}]
+  },
+  appointments: {
+    type: [Schema.Types.ObjectId],
+    ref: "Appointment",
+    default: []
+  },
   role: {
     type: String,
     enum: ["User", "Therapist", "Admin"],

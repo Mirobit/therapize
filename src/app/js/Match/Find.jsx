@@ -46,10 +46,11 @@ class Find extends Component {
     };
 
     this._handleChange = this._handleChange.bind(this);
+    this._find = this._find.bind(this);
   }
   componentDidMount() {
     api.get(`/api/match/find`).then(user => {
-      this.setState({ data: { ...this.state.data, user } });
+      this.setState({ data: { ...this.state.data, ...user } });
     });
   }
   render() {

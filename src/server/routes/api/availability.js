@@ -4,7 +4,7 @@ const User = require("../../models/User");
 const Slot = require("../../models/Slot");
 
 router.get("/", (req, res) => {
-  Slot.findOne({ therapist: req.user._id }, (error, entry) => {
+  User.findOne({ _id: req.user._id }, (error, entry) => {
     if (error || entry == null) {
       res.send(false);
     } else {
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 
 router.post("/update", (req, res) => {
   console.log(req.body.data);
-  Slot.findOneAndUpdate({ therapist: req.user._id }, { slots: req.body.data }, { upsert: true })
+  User.findOneAndUpdate({ _id: req.user._id }, { slots: req.body.data })
     .then(result => {
       console.log(" slot saved in db");
       res.send({ result: true });

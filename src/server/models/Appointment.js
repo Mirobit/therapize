@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const meetingSchema = new Schema({
+const appointmentSchema = new Schema({
   therapist: {
     type: Schema.Types.ObjectId,
     ref: "User"
@@ -9,6 +9,16 @@ const meetingSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User"
+  },
+  day: {
+    type: String,
+    enum: ["monday", "tuesday", "wensday", "thursday", "friday"]
+  },
+  starttime: {
+    type: String
+  },
+  endtime: {
+    type: String
   },
   startat: {
     type: Date
@@ -36,4 +46,4 @@ const meetingSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("Meeting", meetingSchema);
+module.exports = mongoose.model("Appointment", appointmentSchema);
