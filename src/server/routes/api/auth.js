@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const config = require("../../config");
 const upload = require("../../utils/upload");
 
 router.post("/sign-up", (req, res) => {
@@ -24,7 +23,7 @@ router.post("/sign-up", (req, res) => {
     .then(user => {
       const token = jwt.sign(
         { _id: user._id, email: user.email, profilePicture: user.profilePicture },
-        config.SECRET_JWT_PASSPHRASE
+        process.env.SECRET_JWT_PASSPHRASE
       );
       res.send({ token });
     });
@@ -49,7 +48,7 @@ router.post("/sign-in", (req, res) => {
         profilePicture: existingUser.profilePicture,
         role: existingUser.role
       },
-      config.SECRET_JWT_PASSPHRASE
+      process.env.SECRET_JWT_PASSPHRASE
     );
     res.send({ token });
   });

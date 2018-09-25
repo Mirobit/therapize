@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
@@ -8,15 +10,13 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 
-const config = require("./config");
-
 const apiRoutes = require("./routes/api");
 const appRoutes = require("./routes/app");
 
 mongoose.Promise = Promise;
 mongoose
   .connect(
-    config.MONGODB_URI,
+    process.env.MONGODB_URI,
     { useNewUrlParser: true }
   )
   .then(() => {
@@ -34,7 +34,7 @@ server.use(compression());
 server.use(fileUpload());
 server.use(bodyParser.json());
 
-if (!config.IS_PRODUCTION) {
+if (!process.env.IS_PRODUCTION) {
   server.use(express.static(path.join(__dirname, "../../dist")));
 }
 
@@ -49,6 +49,6 @@ server.use(appRoutes);
 //     const dir = fs.readdirSync(path.join(__dirname, './models'))
 //     dir.forEach(model => require(`./models/${model}`))
 
-server.listen(config.PORT, () => {
-  console.log("Server is up and running: http://localhost:" + config.PORT);
+server.listen(process.env.PORT, () => {
+  console.log("Server is up and running: http://localhost:" + process.env.PORT);
 });

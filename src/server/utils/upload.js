@@ -1,11 +1,10 @@
 const cloudinary = require("cloudinary");
-const config = require("../config");
 const fs = require("fs");
 
 cloudinary.config({
-  cloud_name: config.CLOUDINARY_NAME,
-  api_key: config.CLOUDINARY_KEY,
-  api_secret: config.CLOUDINARY_SECRET
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
 });
 
 function upload(file) {
