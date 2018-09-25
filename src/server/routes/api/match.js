@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const crypto = require("crypto");
+const Appointment = require("../../models/Appointment");
 const moment = require("moment");
 
 router.get("/find", (req, res) => {
@@ -18,12 +20,49 @@ router.get("/find", (req, res) => {
     });
 });
 
+router.post("/confirm", (req, res) => {
+  console.log(req.body.therapist);
+  return new Appointment({
+    therapist: req.body.therapist,
+    day: req.body.slot.day,
+    starttime: req.body.slot.start,
+    endtime: req.body.slot.end,
+    duration: 25,
+    user: req.user._id,
+    inhouse: true,
+    roomid: crypto
+      .createHash("sha256")
+      .update(req.body.therapist + req.user._id + req.body.slot.day + req.body.slot.start)
+      .digest("hex"),
+    status: "Unconfirmed"
+  })
+    .save()
+    .then(appointment => {
+      User.findOneAndUpdate({ _id: req.user._id }, { $push: { appointments: appointment._id } });
+      return appointment;
+    })
+    .then(appointment => {
+      User.findOneAndUpdate(
+        { _id: req.body.therapist },
+        { $push: { appointments: appointment._id } }
+      );
+    })
+    .then(result => {
+      res.send(true);
+    })
+    .catch(error => {
+      console.log(error);
+      res.send(false);
+    });
+});
+
 router.post("/find", (req, res) => {
   const gender = req.body.data.gender;
   const days = req.body.data.days;
   const topics = req.body.data.topics;
 
   User.find({ available: true, role: "Therapist" })
+    .select("name age gender profilePicture skills slots appointments description")
     .populate({
       path: "appointments",
       match: { status: { $ne: "Canceled" } },
@@ -77,8 +116,18 @@ router.post("/find", (req, res) => {
             break;
           }
         }
+        // at least one skill
+        let prefoneskills = false;
+        if (topics.length === 0) prefoneskills = true;
+        for (const topic of topics) {
+          if (therapist.skills.indexOf(topic) !== -1) {
+            prefoneskills = true;
+            break;
+          }
+        }
         // check prefred days
         let prefday = false;
+        if (days.length === 0) prefday = true;
         for (const day of days) {
           if (therapist.slots[day].length !== 0) {
             prefday = true;
@@ -87,17 +136,40 @@ router.post("/find", (req, res) => {
         // check gender
         let prefgender = false;
         if (gender === "" || therapist.gender === gender) prefgender = true;
+
+        therapist.prefday = prefday;
+        therapist.prefgender = prefgender;
+        therapist.prefskills = prefskills;
+        therapist.prefoneskills = prefoneskills;
+
         // Perfect match
         if (prefgender && prefskills && prefday) {
           perfectMatches.push(JSON.parse(JSON.stringify(therapist)));
           continue;
         }
+        // Mixed match
+        if (prefoneskills && (prefgender || prefday)) {
+          mixedMatches.push(JSON.parse(JSON.stringify(therapist)));
+          continue;
+        }
+        // Min match
+        if (prefoneskills || prefgender || prefday) {
+          minMatches.push(JSON.parse(JSON.stringify(therapist)));
+          continue;
+        }
       }
-      //JSON.parse(JSON.stringify( originalObject ));
 
       console.log(result);
       console.log("therapist found");
-      res.send({ result: true });
+      if (perfectMatches.length !== 0) {
+        res.send({ status: "perfect", therapists: perfectMatches });
+      } else if (mixedMatches.length !== 0) {
+        res.send({ status: "mixed", therapists: mixedMatches });
+      } else if (minMatches.length !== 0) {
+        res.send({ status: "min", therapists: minMatches });
+      } else {
+        res.send(false);
+      }
     })
     .catch(error => {
       console.log(error);

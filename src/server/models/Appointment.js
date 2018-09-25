@@ -34,6 +34,9 @@ const appointmentSchema = new Schema({
     type: Boolean,
     default: true
   },
+  reason: {
+    type: String
+  },
   roomid: {
     type: String
   },

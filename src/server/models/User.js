@@ -72,7 +72,7 @@ const userSchema = new Schema({
   },
   profilePicture: {
     type: String,
-    default: "./placeholder-male.png"
+    default: "/placeholder-male.png"
   }
 });
 

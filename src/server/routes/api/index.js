@@ -5,6 +5,8 @@ const authRoutes = require("./auth");
 const availabilityRoutes = require("./availability");
 const profileRoutes = require("./profile");
 const matchRoutes = require("./match");
+const chatRoutes = require("./chat");
+const appointmentsRoutes = require("./appointments");
 const { userMiddleware, checkLoggedIn } = require("../../utils/middleware");
 
 router.use(userMiddleware);
@@ -22,6 +24,8 @@ router.use("/auth", authRoutes);
 router.use("/availability", availabilityRoutes);
 router.use("/profile", profileRoutes);
 router.use("/match", matchRoutes);
+router.use("/chat", chatRoutes);
+router.use("/appointments", appointmentsRoutes);
 
 router.use((req, res) => {
   res.status(404).send({ error: "not-found" });

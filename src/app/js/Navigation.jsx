@@ -15,14 +15,18 @@ const Navigation = props => {
               <Link className="link nav-link" to="/profile">
                 Profile
               </Link>
-              &nbsp; &nbsp; &nbsp;
-              <Link className="link nav-link" to="/availability">
-                Availability
-              </Link>
-              &nbsp; &nbsp; &nbsp;
-              <Link className="link nav-link" to="/meeting">
-                Meeting
-              </Link>
+              {props.user.role === "Therapist" && (
+                <span>
+                  &nbsp; &nbsp; &nbsp;
+                  <Link className="link nav-link" to="/availability">
+                    Availability
+                  </Link>
+                  &nbsp; &nbsp; &nbsp;
+                  <Link className="link nav-link" to="/appointments">
+                    Appointments
+                  </Link>
+                </span>
+              )}
               &nbsp; &nbsp; &nbsp;
               <Link className="link nav-link" to="/match">
                 Match

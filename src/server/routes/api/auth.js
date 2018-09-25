@@ -51,7 +51,6 @@ router.post("/sign-in", (req, res) => {
       },
       config.SECRET_JWT_PASSPHRASE
     );
-    console.log(token);
     res.send({ token });
   });
 });
