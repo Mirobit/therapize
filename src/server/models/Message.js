@@ -10,6 +10,11 @@ const messageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
+  type: {
+    type: String,
+    enum: ["Main", "Reply"],
+    default: "Main"
+  },
   content: String,
   date: Date,
   title: {

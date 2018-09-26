@@ -39,7 +39,7 @@ const userSchema = new Schema({
   },
   skills: {
     type: [String],
-    enum: ["drepession", "anxiety", "stress", "anorexia"]
+    enum: ["depression", "anxiety", "stress", "anorexia"]
   },
   available: {
     type: Boolean,
@@ -60,11 +60,18 @@ const userSchema = new Schema({
     thursday: [{}],
     friday: [{}]
   },
-  appointments: {
-    type: [Schema.Types.ObjectId],
-    ref: "Appointment",
-    default: []
-  },
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment"
+    }
+  ],
+  messages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message"
+    }
+  ],
   role: {
     type: String,
     enum: ["User", "Therapist", "Admin"],

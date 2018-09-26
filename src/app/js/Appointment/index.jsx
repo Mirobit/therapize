@@ -19,6 +19,7 @@ class Appointment extends Component {
 
     this._confirm = this._confirm.bind(this);
     this._delete = this._delete.bind(this);
+    this._chat = this._chat.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +40,14 @@ class Appointment extends Component {
     const mappedUnconfirmed = [];
     for (const appointment of this.state.appointments) {
       if (appointment.status === "Confirmed") {
-        mappedConfirmed.push(<AppBox key={appointment._id} appointment={appointment} />);
+        mappedConfirmed.push(
+          <AppBox
+            key={appointment._id}
+            appointment={appointment}
+            chat={this._chat}
+            user={this.props.user}
+          />
+        );
       } else {
         mappedUnconfirmed.push(
           <AppBox
@@ -47,6 +55,7 @@ class Appointment extends Component {
             appointment={appointment}
             confirm={this._confirm}
             delete={this._delete}
+            user={this.props.user}
           />
         );
       }
@@ -92,6 +101,10 @@ class Appointment extends Component {
         this.setState({ error: "Error delcining appointment" });
       }
     });
+  }
+  _chat(roomid) {
+    localStorage.setItem("roomid", roomid);
+    this.props.history.push("/chat");
   }
 }
 

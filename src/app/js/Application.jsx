@@ -10,6 +10,7 @@ import Availability from "./Calendar/Availability";
 import Profile from "./Profile";
 import Match from "./Match";
 import Chat from "./Chat";
+import Message from "./Message";
 import Appointment from "./Appointment";
 import NotFound from "./NotFound";
 import api from "./utils/api";
@@ -49,6 +50,7 @@ class Application extends React.Component {
               path="/appointments"
               render={() => <Appointment user={this.state.user} />}
             />
+            <Route path="/messages" render={() => <Message user={this.state.user} />} />
             <Route exact path="/chat" render={() => <Chat user={this.state.user} />} />
             <Route
               path="/auth"

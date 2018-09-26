@@ -11,7 +11,6 @@ router.get("/find", (req, res) => {
       const user = {
         topics: result.diagnose
       };
-      console.log(user);
       res.send(user);
     })
     .catch(error => {
@@ -38,14 +37,19 @@ router.post("/confirm", (req, res) => {
   })
     .save()
     .then(appointment => {
-      User.findOneAndUpdate({ _id: req.user._id }, { $push: { appointments: appointment._id } });
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $push: { appointments: appointment._id } },
+        { new: true }
+      ).exec();
       return appointment;
     })
     .then(appointment => {
       User.findOneAndUpdate(
         { _id: req.body.therapist },
-        { $push: { appointments: appointment._id } }
-      );
+        { $push: { appointments: appointment._id } },
+        { new: true }
+      ).exec();
     })
     .then(result => {
       res.send(true);
@@ -74,30 +78,39 @@ router.post("/find", (req, res) => {
         for (let appointment of el.appointments) {
           if (typeof el.slots[appointment.day] === "undefined") continue;
           for (let slot of el.slots[appointment.day]) {
-            if (appointment.starttime >= slot.start && appointment.start <= slot.end) {
-              const diffbefore = moment(appointment.start, "HH.mm")
-                .substract(30, "minutes")
+            if (appointment.starttime >= slot.start && appointment.starttime <= slot.end) {
+              const diffbefore = moment(appointment.starttime, "HH.mm")
+                .subtract(30, "minutes")
                 .format("HH.mm");
+              console.log("diffbefore:", diffbefore, ">=", slot.start);
               if (diffbefore >= slot.start) {
-                const newSlotBefore = { start: slot.start, end: appointment.start };
+                console.log("diffbeforeIN", slot.start, diffbefore);
+                const newSlotBefore = { start: slot.start, end: appointment.starttime };
                 el.slots[appointment.day].push(newSlotBefore);
               }
-              const diffafter = moment(appointment.end, "HH.mm")
-                .add(30, "minutes")
+              const diffafter = moment(appointment.endtime, "HH.mm")
+                .add(35, "minutes")
                 .format("HH.mm");
-              if (diffbefore <= slot.start) {
+              console.log("diffafter:", diffafter, "<=", slot.end);
+              if (diffafter <= slot.end) {
+                console.log("diffafterIN", diffafter);
                 const newSlotAfter = {
-                  start: moment(appointment.end, "HH.mm")
+                  start: moment(appointment.endtime, "HH.mm")
                     .add(5, "minutes")
                     .format("HH.mm"),
                   end: slot.end
                 };
-                el.slots[appointment.day].push(newSlotBefore);
+                el.slots[appointment.day].push(newSlotAfter);
               }
-              el.slots[appointment.day].splice(el.slots[appointment.day].indexOf(slot));
+              el.slots[appointment.day].splice(el.slots[appointment.day].indexOf(slot), 1);
             }
             if (el.slots[appointment.day].length === 0) {
+              console.log("delte");
               delete el.slots[appointment.day];
+            } else {
+              el.slots[appointment.day].sort((a, b) => {
+                return a >= b;
+              });
             }
           }
         }
@@ -159,8 +172,6 @@ router.post("/find", (req, res) => {
         }
       }
 
-      console.log(result);
-      console.log("therapist found");
       if (perfectMatches.length !== 0) {
         res.send({ status: "perfect", therapists: perfectMatches });
       } else if (mixedMatches.length !== 0) {

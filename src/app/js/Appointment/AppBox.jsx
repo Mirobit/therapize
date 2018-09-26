@@ -4,7 +4,8 @@ import Appointment from ".";
 
 const Appbox = props => {
   let control = "";
-  if (props.confirm != undefined) {
+  let chatButton = "";
+  if (props.confirm != undefined && props.user.role === "Therapist") {
     control = (
       <Card.Content extra>
         <div className="ui two buttons">
@@ -18,15 +19,27 @@ const Appbox = props => {
       </Card.Content>
     );
   }
+  if (props.confirm == undefined) {
+    chatButton = (
+      <Button
+        floated="right"
+        size="mini"
+        color="blue"
+        onClick={() => props.chat(props.appointment.roomid)}
+      >
+        Chat
+      </Button>
+    );
+  }
   return (
     <Card>
       <Card.Content>
-        <Card.Header>{props.appointment.user.name}</Card.Header>
+        <Card.Header>
+          {props.user.role === "Therapist" ? props.appointment.user.name : "name"}
+        </Card.Header>
         <Card.Meta>{props.appointment.reason}</Card.Meta>
         <Card.Description>
-          <Button floated="right" size="mini" color="blue">
-            Chat
-          </Button>
+          {chatButton}
           {props.appointment.day + " " + props.appointment.starttime}
         </Card.Description>
       </Card.Content>

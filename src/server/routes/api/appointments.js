@@ -45,6 +45,8 @@ router.post("/confirm", (req, res) => {
 });
 
 router.post("/delete", (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { $pull: { appointments: req.body.id } }).exec();
+  // ToDO: Delete also from user appointments list
   Appointment.findOneAndUpdate({ _id: req.body.id }, { status: "Canceled" })
     .then(result => {
       res.send(true);

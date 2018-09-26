@@ -1,20 +1,27 @@
 .navigation {
-    background-color: $primary-color;
+  background-color: #4c85ca;
 }
 
 .nav-content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  // vertical-align: center;
+  // align-items: flex-start;
+  // justify-items: center;
+  // justify-content: flex-start;
+  a {
+    color: black;
+  }
 }
 
 .nav-link {
+  color: #fff;
+
+  &:visited {
     color: #fff;
+  }
 
-    &:visited {
-        color: #fff;
-    }
-
-    &:hover {
-        color: #fff;
-    }
+  &:hover {
+    color: #fff;
+  }
 }

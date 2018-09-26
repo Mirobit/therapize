@@ -1,44 +1,62 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { Icon, Label, Menu } from "semantic-ui-react";
 
 const Navigation = props => {
   return (
     <div className="navigation">
       <div className="container nav-content">
         <div>
-          <Link className="link nav-link" to="/">
-            Home
-          </Link>
-          {props.user && (
-            <span>
-              &nbsp; &nbsp; &nbsp;
-              <Link className="link nav-link" to="/profile">
-                Profile
-              </Link>
-              {props.user.role === "Therapist" && (
-                <span>
-                  &nbsp; &nbsp; &nbsp;
-                  <Link className="link nav-link" to="/availability">
-                    Availability
-                  </Link>
-                  &nbsp; &nbsp; &nbsp;
-                  <Link className="link nav-link" to="/appointments">
-                    Appointments
-                  </Link>
-                </span>
-              )}
-              &nbsp; &nbsp; &nbsp;
-              <Link className="link nav-link" to="/match">
-                Match
-              </Link>
-            </span>
-          )}
+          <img src="/logo.png" />
         </div>
+
         <div>
           {props.user ? (
-            <Link className="link nav-link" to="/auth/logout">
-              Logout
-            </Link>
+            <Menu compact style={{ marginTop: "14px" }}>
+              {props.user.role === "User" && (
+                <Menu.Item>
+                  <NavLink to="/match">
+                    <Icon name="search" color="grey" /> Find Therapist
+                  </NavLink>
+                </Menu.Item>
+              )}
+              <Menu.Item>
+                <NavLink to="/appointments">
+                  <Icon name="calendar alternate outline" color="grey" /> Appointments
+                </NavLink>
+                {/* <Label color="red" floating>
+                  2
+                </Label> */}
+              </Menu.Item>
+
+              <Menu.Item>
+                <NavLink to="/messages">
+                  <Icon name="mail" color="grey" /> Messages
+                </NavLink>
+                <Label color="red" floating>
+                  8
+                </Label>
+              </Menu.Item>
+
+              {props.user.role === "Therapist" && (
+                <Menu.Item>
+                  <NavLink to="/availability">
+                    <Icon name="calendar check outline" color="grey" /> Calendar
+                  </NavLink>
+                </Menu.Item>
+              )}
+              <Menu.Item>
+                <NavLink to="/profile">
+                  <Icon name="user" color="grey" /> Profile
+                </NavLink>
+              </Menu.Item>
+
+              <NavLink to="/auth/logout">
+                <Menu.Item>
+                  <Icon name="shutdown" color="grey" />
+                </Menu.Item>
+              </NavLink>
+            </Menu>
           ) : (
             <span>
               <Link className="link nav-link" to="/auth/sign-in">

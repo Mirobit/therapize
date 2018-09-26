@@ -2,11 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 class SignUp extends React.Component {
-  //   componentDidMount() {
-  //     this.props.handleInputChange("email", "");
-  //     this.props.handleInputChange("password", "");
-  //   }
-
   render() {
     return (
       <div className="container">

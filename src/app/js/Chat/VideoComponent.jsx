@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import Video from "twilio-video";
 import api from "../utils/api";
-import { Button, Message, Card } from "semantic-ui-react";
+import { Button, Message, Card, Segment, Loader } from "semantic-ui-react";
 
 class VideoComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       identity: null,
-      roomName: "cbb635110e69692360daf4fe4197e1cd973b4ef8dca22b591d58392951d4a3a1",
+      roomName: null,
       localMediaAvailable: false,
       hasJoinedRoom: false,
-      activeRoom: null
+      activeRoom: null,
+      remoteConnection: false
     };
 
     this.roomJoined = this.roomJoined.bind(this);
@@ -21,8 +22,9 @@ class VideoComponent extends Component {
   }
 
   componentDidMount() {
+    this.setState({ roomName: localStorage.getItem("roomid") });
+    console.log(this.state.roomName);
     api.get("/api/chat/token").then(results => {
-      console.log(results);
       const { identity, token } = results;
       this.setState({ identity, token });
       let connectOptions = {
@@ -79,11 +81,12 @@ class VideoComponent extends Component {
     var previewContainer = this.refs.localMedia;
     if (!previewContainer.querySelector("video")) {
       this.attachParticipantTracks(room.localParticipant, previewContainer);
-      //previewContainer.querySelector("video").className = "localvideo";
+      previewContainer.querySelector("video").className = "localvideo";
     }
 
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach(participant => {
+      this.setState({ remoteConnection: true });
       console.log("Already in Room: '" + participant.identity + "'");
       var previewContainer = this.refs.remoteMedia;
       this.attachParticipantTracks(participant, previewContainer);
@@ -132,17 +135,38 @@ class VideoComponent extends Component {
   render() {
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
-        <div ref="localMedia" />
+        <Segment
+          style={{
+            marginTop: "2em",
+            marginLeft: "10px",
+            height: "250px",
+            width: "330px",
+            backgroundColor: " #ffffff"
+          }}
+        >
+          <div ref="localMedia" />
+        </Segment>
       </div>
     ) : (
-      ""
+      <Segment
+        style={{ marginTop: "2em", marginLeft: "10px", height: "255px", width: "330px" }}
+        loading
+      />
     );
-
+    let showRemoteTrack = this.state.remoteConnection ? (
+      <Segment style={{ marginTop: "2em", height: "510px", width: "670px" }}>
+        <div className="flex-item" ref="remoteMedia" id="remote-media" />
+      </Segment>
+    ) : (
+      <Segment style={{ marginTop: "2em", height: "510px", width: "670px" }} loading>
+        <span style={{ color: "black" }}>Waiting for participant...</span>
+      </Segment>
+    );
     return (
       <div>
         <div className="flex-container">
+          {showRemoteTrack}
           {showLocalTrack}
-          <div className="flex-item" ref="remoteMedia" id="remote-media" />
         </div>
       </div>
     );
