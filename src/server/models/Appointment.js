@@ -12,7 +12,7 @@ const appointmentSchema = new Schema({
   },
   day: {
     type: String,
-    enum: ["monday", "tuesday", "wensday", "thursday", "friday"]
+    enum: ["Monday", "Tuesday", "Wensday", "Thursday", "Friday"]
   },
   starttime: {
     type: String

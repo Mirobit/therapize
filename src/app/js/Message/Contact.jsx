@@ -10,7 +10,7 @@ const Contact = ({ contacts, activeItem, handleItemClick }) => {
     </Menu.Item>
   ));
   return (
-    <Menu vertical>
+    <Menu size="large" vertical>
       <Menu.Item>
         <Header as="h4">Contacts</Header>
       </Menu.Item>

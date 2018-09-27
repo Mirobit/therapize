@@ -49,14 +49,6 @@ router.post("/confirm", (req, res) => {
         date: Date.now()
         // dateStr: moment(req.body.date).format("ddd DD/MM/YYYY"),
       }).save();
-      new Message({
-        title: "You confirmed an appointment with a client",
-        content: "You can start sending the client therapy material",
-        to: req.user._id,
-        from: result.user,
-        date: Date.now()
-        // dateStr: moment(req.body.date).format("ddd DD/MM/YYYY"),
-      }).save();
       User.findOneAndUpdate({ _id: result.user }, { $push: { therapists: req.user._id } }).exec();
       User.findOneAndUpdate({ _id: req.user._id }, { $push: { clients: result.user } }).then(
         result => {
@@ -90,6 +82,24 @@ router.post("/delete", (req, res) => {
           res.send(true);
         }
       );
+      console.log("cancel", result);
+      if (req.user.role === "Therapist") {
+        new Message({
+          title: "An appointment was canceled by your therapist",
+          content: "Please shedule a new appoint or contact your therapist",
+          to: result.user,
+          from: result.therapist,
+          date: Date.now()
+        }).save();
+      } else {
+        new Message({
+          title: "An appointment was canceled by a client",
+          content: "Please contact your client for futher appointsments",
+          to: result.therapist,
+          from: result.user,
+          date: Date.now()
+        }).save();
+      }
     })
     .catch(error => {
       console.log(error);

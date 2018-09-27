@@ -39,7 +39,7 @@ const userSchema = new Schema({
   },
   skills: {
     type: [String],
-    enum: ["depression", "anxiety", "stress", "anorexia"]
+    enum: ["Depression", "Anxiety", "Stress", "Anorexia"]
   },
   available: {
     type: Boolean,
@@ -58,11 +58,11 @@ const userSchema = new Schema({
     }
   ],
   slots: {
-    monday: [{}],
-    tuesday: [{}],
-    wensday: [{}],
-    thursday: [{}],
-    friday: [{}]
+    Monday: [{}],
+    Tuesday: [{}],
+    Wensday: [{}],
+    Thursday: [{}],
+    Friday: [{}]
   },
   appointments: [
     {

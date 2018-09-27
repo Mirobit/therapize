@@ -21,7 +21,7 @@ class Message extends Component {
       contacts: []
     };
 
-    this._delteMail = this._deleteMail.bind(this);
+    this._deleteMail = this._deleteMail.bind(this);
     this._readLabel = this._readLabel.bind(this);
     this._composeMail = this._composeMail.bind(this);
     this._handleItemClick = this._handleItemClick.bind(this);
@@ -45,18 +45,21 @@ class Message extends Component {
   _composeMail() {
     this.props.history.push("/messages/compose");
   }
+
   _deleteMail(id) {
-    console.log(this.state);
+    const index = this.state.contacts.findIndex(el => el.name === this.state.activeItem);
+    let contacts = this.state.contacts;
+    const indexMsg = contacts[index].messages.findIndex(el => el._id === id);
+    contacts[index].messages.splice(indexMsg, 1);
+    this.setState({ contacts: contacts });
     api
       .delete("/api/message/" + id)
       .then(data => {
-        console.log(data);
-        console.log(this.props);
+        this.props.history.push("/messages");
       })
       .catch(err => {
         console.log(err);
       });
-    this.props.history.push("/messages");
   }
 
   _readLabel(id) {
@@ -75,7 +78,7 @@ class Message extends Component {
       return "";
     }
     return (
-      <div className="flex-container">
+      <div className="flex-container-apps">
         <Contact
           contacts={this.state.contacts}
           activeItem={this.state.activeItem}

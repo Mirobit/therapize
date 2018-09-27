@@ -47,6 +47,18 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/unreadcount", (req, res) => {
+  Message.countDocuments({ to: req.user._id, delivered: false })
+    .then(count => {
+      console.log("unread", count);
+      res.send({ count });
+    })
+    .catch(error => {
+      console.log(error);
+      res.send({ count: 0 });
+    });
+});
+
 router.get("/:id", (req, res) => {
   Message.findOneAndUpdate({ _id: req.params.id }, { delivered: true }).then(message => {
     console.log(message);

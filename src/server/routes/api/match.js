@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const Message = require("../../models/Message");
 const crypto = require("crypto");
 const Appointment = require("../../models/Appointment");
 const moment = require("moment");
@@ -38,10 +39,22 @@ router.post("/confirm", (req, res) => {
     })
       .save()
       .then(appointment => {
+        new Message({
+          title: "A client requested an appointment with you",
+          content: "Please go to your Appointments page to acccept or decline the appointment.",
+          to: appointment.therapist,
+          from: req.user._id,
+          date: Date.now()
+          // dateStr: moment(req.body.date).format("ddd DD/MM/YYYY"),
+        }).save();
         User.findOneAndUpdate(
           { _id: req.user._id },
           { $push: { appointments: appointment._id } },
           { new: true }
+        ).exec();
+        User.findOneAndUpdate(
+          { _id: req.body.therapist },
+          { $push: { appointments: appointment._id } }
         ).exec();
         return appointment;
       })

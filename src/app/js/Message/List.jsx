@@ -3,7 +3,11 @@ import { Input, Label, Menu, Icon, Divider, Segment, Button } from "semantic-ui-
 import MailHeader from "./Header";
 const componentName = ({ contacts, composeMail, activeItem }) => {
   const contact = contacts.find(el => el.name === activeItem);
-  let mappedMailHeaders = [<br />, <br />, "No Mails"];
+  let mappedMailHeaders = (
+    <span>
+      <br /> <br /> No Mails
+    </span>
+  );
   if (contact != undefined) {
     mappedMailHeaders = contact.messages.map((el, index) => (
       <MailHeader
@@ -17,8 +21,8 @@ const componentName = ({ contacts, composeMail, activeItem }) => {
     ));
   }
   return (
-    <Segment style={{ marginLeft: "20px", marginTop: "0px", width: "500px" }}>
-      <Button onClick={composeMail} basic>
+    <Segment style={{ marginLeft: "20px", marginTop: "0px", width: "600px" }}>
+      <Button color="teal" onClick={composeMail} basic>
         <Icon name="pencil alternate" />
         New Mail
       </Button>

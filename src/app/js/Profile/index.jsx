@@ -17,10 +17,10 @@ const options = [
   { key: "f", text: "Female", value: "female" }
 ];
 const optionsSkills = [
-  { key: "de", text: "Depression", value: "depression" },
-  { key: "an", text: "Anxiety", value: "anxiety" },
-  { key: "st", text: "Stress", value: "stress" },
-  { key: "ar", text: "Anorexia", value: "anorexia" }
+  { key: "de", text: "Depression", value: "Depression" },
+  { key: "an", text: "Anxiety", value: "Anxiety" },
+  { key: "st", text: "Stress", value: "Stress" },
+  { key: "ar", text: "Anorexia", value: "Anorexia" }
 ];
 class Profile extends Component {
   constructor(props) {

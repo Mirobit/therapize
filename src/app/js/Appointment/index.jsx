@@ -1,7 +1,7 @@
 import { Route, Switch, withRouter } from "react-router-dom";
 import React, { Component } from "react";
 import AppBox from "./AppBox";
-import { Message } from "semantic-ui-react";
+import { Message, Card } from "semantic-ui-react";
 
 import api from "../utils/api";
 
@@ -62,16 +62,18 @@ class Appointment extends Component {
       }
     }
     return (
-      <div>
+      <div className="flex-container-apps">
         {msgbox}
         <div>
-          <strong>Confirmed Appointments</strong>
+          <div className="heading-app">Confirmed Appointments</div>
+
+          {mappedConfirmed.length === 0 ? "No cofirmed appointments" : mappedConfirmed}
         </div>
-        {mappedConfirmed.length === 0 ? "No uncofirmed appointments" : mappedConfirmed}
-        <div>
-          <strong>Unconfirmed Appointments</strong>
+        <div style={{ marginLeft: "100px" }}>
+          <div className="heading-app">Unconfirmed Appointments</div>
+
+          {mappedUnconfirmed.length === 0 ? "No uncofirmed appointments" : mappedUnconfirmed}
         </div>
-        {mappedUnconfirmed.length === 0 ? "No uncofirmed appointments" : mappedUnconfirmed}
       </div>
     );
   }

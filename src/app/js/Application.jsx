@@ -20,7 +20,9 @@ class Application extends React.Component {
     super(props);
 
     this.state = {
-      user: this._setUser(true)
+      user: this._setUser(true),
+      interval: "",
+      unreadcounter: 0
     };
 
     this._setUser = this._setUser.bind(this);
@@ -29,13 +31,22 @@ class Application extends React.Component {
 
   componentDidMount() {
     this._setUser();
+    // setInterval(() => {
+    //   api.get("/api/message/unreadcount/").then(counter => {
+    //     this.setState({ unreadcounter: counter.count });
+    //   });
+    // }, 30000);
+  }
+
+  componentWillMount() {
+    clearInterval(this.state.interval);
   }
 
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Navigation user={this.state.user} />
+          <Navigation user={this.state.user} counter={this.state.unreadcounter} />
           <Switch>
             <Route exact path="/" render={() => <Home user={this.state.user} />} />
             <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />

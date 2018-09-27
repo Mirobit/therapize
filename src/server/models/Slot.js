@@ -7,15 +7,15 @@ const slotSchema = new Schema({
     ref: "User"
   },
   slots: {
-    monday: [{}],
-    tuesday: [{}],
-    wensday: [{}],
-    thursday: [{}],
-    friday: [{}]
+    Monday: [{}],
+    Tuesday: [{}],
+    Wensday: [{}],
+    Thursday: [{}],
+    Friday: [{}]
   },
   day: {
     type: String,
-    enum: ["monday", "tuesday", "wensday", "thursday", "friday"]
+    enum: ["Monday", "Tuesday", "Wensday", "Thursday", "Friday"]
   },
   startTime: String,
   endTime: String,

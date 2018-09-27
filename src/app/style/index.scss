@@ -1,8 +1,15 @@
-$primary-color: #63adf2;
-$secondary-color: #ff686b;
+$primary-color: #05668d;
+$secondary-color: #028090;
+$tertariy-color: #00a896;
+$last-color: #f0f3bd;
 $text-color: #333;
 $grey: rgb(200, 200, 200);
 
-@import './base.scss';
-@import './components.scss';
-@import './navigation.scss';
+// $primary-color: #63adf2;
+// $secondary-color: #ff686b;
+// $text-color: #333;
+// $grey: rgb(200, 200, 200);
+
+@import "./base.scss";
+@import "./components.scss";
+@import "./navigation.scss";

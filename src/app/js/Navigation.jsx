@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { Icon, Label, Menu } from "semantic-ui-react";
 
 const Navigation = props => {
+  console.log(props.counter);
   return (
     <div className="navigation">
       <div className="container nav-content">
@@ -33,9 +34,13 @@ const Navigation = props => {
                 <NavLink to="/messages">
                   <Icon name="mail" color="grey" /> Messages
                 </NavLink>
-                <Label color="red" floating>
-                  8
-                </Label>
+                {props.counter !== 0 ? (
+                  <Label color="red" floating>
+                    {props.counter}
+                  </Label>
+                ) : (
+                  ""
+                )}
               </Menu.Item>
 
               {props.user.role === "Therapist" && (

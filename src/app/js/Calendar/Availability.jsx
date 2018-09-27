@@ -20,11 +20,11 @@ class Availability extends Component {
       message: "",
       error: "",
       data: {
-        monday: [{ start: "12.00", end: "13.00" }],
-        tuesday: [{ start: "", end: "" }],
-        wensday: [{ start: "", end: "" }],
-        thursday: [{ start: "", end: "" }],
-        friday: [{ start: "", end: "" }]
+        Monday: [{ start: "", end: "" }],
+        Tuesday: [{ start: "", end: "" }],
+        Wensday: [{ start: "", end: "" }],
+        Thursday: [{ start: "", end: "" }],
+        Friday: [{ start: "", end: "" }]
       }
     };
 

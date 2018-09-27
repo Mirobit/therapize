@@ -16,18 +16,18 @@ const options = [
 ];
 
 const optionsDays = [
-  { key: "mo", text: "Monday", value: "monday" },
-  { key: "tu", text: "Tuesday", value: "tuesday" },
-  { key: "we", text: "Wensday", value: "wensday" },
-  { key: "th", text: "Thursday", value: "thursday" },
-  { key: "fr", text: "Friday", value: "friday" }
+  { key: "mo", text: "Monday", value: "Monday" },
+  { key: "tu", text: "Tuesday", value: "Tuesday" },
+  { key: "we", text: "Wensday", value: "Wensday" },
+  { key: "th", text: "Thursday", value: "Thursday" },
+  { key: "fr", text: "Friday", value: "Friday" }
 ];
 
 const optionsTopics = [
-  { key: "de", text: "Depression", value: "depression" },
-  { key: "an", text: "Anxiety", value: "anxiety" },
-  { key: "st", text: "Stress", value: "stress" },
-  { key: "ar", text: "Anorexia", value: "anorexia" }
+  { key: "de", text: "Depression", value: "Depression" },
+  { key: "an", text: "Anxiety", value: "Anxiety" },
+  { key: "st", text: "Stress", value: "Stress" },
+  { key: "ar", text: "Anorexia", value: "Anorexia" }
 ];
 
 const Find = ({ data, handleFindChange, find }) => {

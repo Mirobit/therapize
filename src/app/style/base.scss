@@ -14,6 +14,7 @@ body {
 
 #app {
   background-color: #f1f3f5;
+  // background-color: $last-color;
   height: 100%;
 }
 
@@ -33,6 +34,23 @@ body {
   padding-left: 30px;
   display: flex;
   align-items: flex-start;
+}
+.flex-container-apps {
+  padding-top: 30px;
+  // width: 800px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.app-box {
+  margin-bottom: 20px;
+  box-shadow: 0 5px 35px -15px rgba(0, 0, 0, 0.5);
+}
+.heading-app {
+  margin-bottom: 30px;
+  color: #666869;
+  font-size: 23px;
 }
 .localvideobox {
   background-color: grey;
