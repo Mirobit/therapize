@@ -7,8 +7,18 @@ const Navigation = props => {
   return (
     <div className="navigation">
       <div className="container nav-content">
-        <div>
-          <img src="/logo3.png" />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center"
+          }}
+        >
+          <img src="/logo3.png" style={{ marginRight: "10px" }} />{" "}
+          <span
+            style={{ color: "white", fontSize: "20px", fontWeight: "bold", letterSpacing: "3px" }}
+          >
+            THERAPIZE
+          </span>
         </div>
 
         <div>
@@ -63,15 +73,7 @@ const Navigation = props => {
               </NavLink>
             </Menu>
           ) : (
-            <span>
-              <Link className="link nav-link" to="/auth/sign-in">
-                Sign in
-              </Link>
-              &nbsp; &nbsp; &nbsp;
-              <Link className="link nav-link" to="/auth/sign-up">
-                Sign up
-              </Link>
-            </span>
+            ""
           )}
         </div>
       </div>

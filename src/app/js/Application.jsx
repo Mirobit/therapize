@@ -48,7 +48,7 @@ class Application extends React.Component {
         <div>
           <Navigation user={this.state.user} counter={this.state.unreadcounter} />
           <Switch>
-            <Route exact path="/" render={() => <Home user={this.state.user} />} />
+            <Route exact path="/" render={() => <Home user={this._setUser} />} />
             <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />
             <Route path="/match" render={() => <Match user={this.state.user} />} />
             <Route

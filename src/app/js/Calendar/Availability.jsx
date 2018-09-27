@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import api from "../utils/api";
 import Slot from "./Slot";
-import { Button, Message } from "semantic-ui-react";
+import { Button, Message, Segment } from "semantic-ui-react";
 import moment from "moment";
+import Day from "./Day";
 import { Redirect } from "react-router-dom";
 import { withRouter } from "react-router";
 
@@ -25,7 +26,8 @@ class Availability extends Component {
         Wensday: [{ start: "", end: "" }],
         Thursday: [{ start: "", end: "" }],
         Friday: [{ start: "", end: "" }]
-      }
+      },
+      loading: true
     };
 
     this._handleSlotChange = this._handleSlotChange.bind(this);
@@ -37,7 +39,7 @@ class Availability extends Component {
   componentDidMount() {
     api.get(`/api/availability/`).then(result => {
       if (result !== false) {
-        this.setState({ data: result });
+        this.setState({ data: result, loading: false });
       }
     });
   }
@@ -57,38 +59,38 @@ class Availability extends Component {
         </Message>
       );
     }
-    const mappedDays = Object.keys(this.state.data).map(dayKey => {
-      let mappedDaySlots = [];
-      mappedDaySlots.push(<div>{dayKey}</div>);
-      mappedDaySlots = mappedDaySlots.concat(
-        this.state.data[dayKey].map((timeslot, index) => {
-          return (
-            <Slot
-              day={dayKey}
-              timeslot={timeslot}
-              index={index}
-              key={dayKey + index}
-              handleSlotChange={this._handleSlotChange}
-              removeSlot={this._removeSlot}
-            />
-          );
-        })
-      );
-      mappedDaySlots.push(
-        <Button primary onClick={() => this._addSlot(dayKey)}>
-          More
-        </Button>
-      );
-      return mappedDaySlots;
-    });
+    let mappedDays = [];
+    if (!this.state.loading) {
+      mappedDays = Object.keys(this.state.data).map(dayKey => {
+        return (
+          <Day
+            key={dayKey}
+            timeslots={this.state.data[dayKey]}
+            day={dayKey}
+            handleSlotChange={this._handleSlotChange}
+            removeSlot={this._removeSlot}
+            addSlot={this._addSlot}
+          />
+        );
+      });
+    }
 
     return (
-      <div>
-        {msgbox}
-        {mappedDays}
-        <Button primary onClick={this._update}>
-          Submit
-        </Button>
+      <div className="flex-container-apps">
+        <Segment style={{ width: "980px" }}>
+          <div className="flex-container-ava">
+            <div className="heading-app">Availability</div>
+          </div>
+          <div className="flex-container-ava" style={{ marginBottom: "20px" }}>
+            {msgbox}
+          </div>
+          <div className="flex-container-ava">{mappedDays}</div>
+          <div className="flex-container-ava">
+            <Button basic color="teal" onClick={this._update}>
+              Submit
+            </Button>
+          </div>
+        </Segment>
       </div>
     );
   }
@@ -112,7 +114,7 @@ class Availability extends Component {
   }
 
   _removeSlot(day, index) {
-    let oldState = this.state[day];
+    let oldState = this.state.data[day];
     oldState.splice(index, 1);
     this.setState({ data: { ...this.state.data, [day]: oldState } });
   }

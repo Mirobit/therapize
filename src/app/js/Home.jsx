@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import { withRouter } from "react-router";
 
 const Home = props => {
-    return (
-        <div className="container">
-            <h1>Hello, {props.user ? props.user.email : 'Stranger'}!</h1>
-        </div>
-    )
-}
+  props.history.push("/auth/sign-in");
+  return (
+    <div className="container">
+      <h1>Hello, {props.user ? props.user.email : "Stranger"}!</h1>
+    </div>
+  );
+};
 
-export default Home
+export default withRouter(Home);

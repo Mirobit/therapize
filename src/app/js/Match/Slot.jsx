@@ -7,7 +7,7 @@ const Slot = ({ day, start, pickTimeSlot }) => {
     <span>
       <button
         role="button"
-        class="ui basic button"
+        className="ui basic button"
         style={{ marginBottom: "4px" }}
         key={day + start}
         onClick={() =>

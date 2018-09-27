@@ -1,5 +1,6 @@
 import React from "react";
 import { TimeInput } from "semantic-ui-calendar-react";
+import { Button, Icon } from "semantic-ui-react";
 
 const Slot = ({ day, timeslot, index, handleSlotChange, removeSlot }) => {
   return (
@@ -22,7 +23,9 @@ const Slot = ({ day, timeslot, index, handleSlotChange, removeSlot }) => {
         key={day + index + "end"}
         onChange={(event, { name, value }) => handleSlotChange(day, index, "end", value)}
       />
-      <span onClick={() => removeSlot(day, index)}>x</span>
+      <span onClick={() => removeSlot(day, index)} style={{ color: "red" }}>
+        <Icon name="close" size="small" />
+      </span>
     </div>
   );
 };

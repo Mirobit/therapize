@@ -14,7 +14,7 @@ body {
 
 #app {
   background-color: #f1f3f5;
-  background-image: linear-gradient(to bottom, #f1f3f5, #ffffff);
+
   height: 100%;
 }
 
@@ -25,6 +25,11 @@ body {
   @media (max-width: 980px) {
     padding: 25px 10px;
   }
+}
+.main {
+  background-image: url("../../server/public/bg2.jpg");
+  background-size: cover;
+  height: 88vh;
 }
 .localvideo {
   width: 300px;
@@ -45,6 +50,12 @@ body {
 }
 .flex-container-find {
   padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.flex-container-ava {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
