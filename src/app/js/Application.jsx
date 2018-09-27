@@ -38,7 +38,7 @@ class Application extends React.Component {
     // }, 30000);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearInterval(this.state.interval);
   }
 

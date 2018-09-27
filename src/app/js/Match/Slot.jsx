@@ -4,21 +4,25 @@ import moment from "moment";
 
 const Slot = ({ day, start, pickTimeSlot }) => {
   return (
-    <Button
-      key={day + start}
-      onClick={() =>
-        pickTimeSlot(
-          day,
-          start,
-          moment(start, "HH.mm")
-            .add(25, "minutes")
-            .format("HH.mm")
-        )
-      }
-      basic
-    >
-      {start}
-    </Button>
+    <span>
+      <button
+        role="button"
+        class="ui basic button"
+        style={{ marginBottom: "4px" }}
+        key={day + start}
+        onClick={() =>
+          pickTimeSlot(
+            day,
+            start,
+            moment(start, "HH.mm")
+              .add(25, "minutes")
+              .format("HH.mm")
+          )
+        }
+      >
+        {start}
+      </button>
+    </span>
   );
 };
 

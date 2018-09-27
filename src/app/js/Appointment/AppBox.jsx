@@ -39,7 +39,7 @@ const Appbox = props => {
           size="small"
           icon
           basic
-          onClick={() => props.chat(props.appointment.roomid)}
+          onClick={() => props.sendMessage(props.appointment.user)}
         >
           <span style={{ color: "#028090" }}>
             <Icon name="envelope outline" />

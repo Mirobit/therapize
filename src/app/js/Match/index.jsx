@@ -49,8 +49,7 @@ class Match extends Component {
     }
     return (
       <div>
-        {" "}
-        {msgbox}
+        <div className="flex-container-apps">{msgbox}</div>
         <Switch>
           <Route
             exact
@@ -131,8 +130,10 @@ class Match extends Component {
       });
   }
 
-  _find() {
+  _find(e) {
+    e.preventDefault();
     this.setState({ error: "", message: "" });
+    console.log("find");
     api
       .post(`/api/match/find`, { data: this.state.data })
       .then(data => {

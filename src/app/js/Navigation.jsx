@@ -8,7 +8,7 @@ const Navigation = props => {
     <div className="navigation">
       <div className="container nav-content">
         <div>
-          <img src="/logo.png" />
+          <img src="/logo3.png" />
         </div>
 
         <div>

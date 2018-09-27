@@ -20,6 +20,7 @@ class Appointment extends Component {
     this._confirm = this._confirm.bind(this);
     this._delete = this._delete.bind(this);
     this._chat = this._chat.bind(this);
+    this._sendMessage = this._sendMessage.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +46,7 @@ class Appointment extends Component {
             key={appointment._id}
             appointment={appointment}
             chat={this._chat}
+            sendMessage={this._sendMessage}
             delete={this._delete}
             user={this.props.user}
           />
@@ -62,19 +64,21 @@ class Appointment extends Component {
       }
     }
     return (
-      <div className="flex-container-apps">
-        {msgbox}
-        <div>
-          <div className="heading-app">Confirmed Appointments</div>
+      <React.Fragment>
+        <div className="flex-container-apps">{msgbox}</div>
+        <div className="flex-container-apps">
+          <div>
+            <div className="heading-app">Confirmed Appointments</div>
 
-          {mappedConfirmed.length === 0 ? "No cofirmed appointments" : mappedConfirmed}
-        </div>
-        <div style={{ marginLeft: "100px" }}>
-          <div className="heading-app">Unconfirmed Appointments</div>
+            {mappedConfirmed.length === 0 ? "No confirmed appointments" : mappedConfirmed}
+          </div>
+          <div style={{ marginLeft: "100px" }}>
+            <div className="heading-app">Unconfirmed Appointments</div>
 
-          {mappedUnconfirmed.length === 0 ? "No uncofirmed appointments" : mappedUnconfirmed}
+            {mappedUnconfirmed.length === 0 ? "No uncofirmed appointments" : mappedUnconfirmed}
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
@@ -108,6 +112,10 @@ class Appointment extends Component {
   _chat(roomid) {
     localStorage.setItem("roomid", roomid);
     this.props.history.push("/chat");
+  }
+  _sendMessage(userid) {
+    // localStorage.setItem("roomid", roomid);
+    this.props.history.push("/messages");
   }
 }
 
