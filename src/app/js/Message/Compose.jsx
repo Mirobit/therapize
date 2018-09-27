@@ -11,6 +11,7 @@ import {
   Form,
   TextArea
 } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import api from "../utils/api";
 
 class Compose extends Component {
@@ -105,4 +106,4 @@ class Compose extends Component {
   }
 }
 
-export default Compose;
+export default withRouter(Compose);

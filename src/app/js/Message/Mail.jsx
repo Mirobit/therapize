@@ -2,19 +2,17 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Input, Label, Menu, Header, Icon, Divider, Segment, Button } from "semantic-ui-react";
 import api from "../utils/api";
+import moment from "moment";
 
 class Mail extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
-      activeItem: "",
       messageId: props.match.params.id,
       message: "",
       error: "",
-      loading: true,
-      contacts: []
+      loading: true
     };
 
     // this._handleItemClick = this._handleItemClick.bind(this);
@@ -48,7 +46,9 @@ class Mail extends Component {
         >
           {this.state.message.title}
         </span>
-        <span style={{ display: "inline-block", color: "grey" }}>{this.state.message.date}</span>
+        <span style={{ display: "inline-block", color: "#5F85C5" }}>
+          {moment(new Date(this.state.message.date)).format("ddd h:mm")}
+        </span>
         <Divider />
         {this.state.message.content}
         <Divider />
@@ -63,7 +63,7 @@ class Mail extends Component {
           )}
         </Button.Group>
         <span style={{ float: "right" }}>
-          <Button basic negative icon>
+          <Button onClick={() => this.props.deleteMail(this.state.messageId)} basic negative icon>
             <Icon name="trash alternate outline" />
           </Button>
         </span>

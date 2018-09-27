@@ -45,14 +45,18 @@ const userSchema = new Schema({
     type: Boolean,
     defautl: false
   },
-  therapist: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  },
-  clients: {
-    type: [Schema.Types.ObjectId],
-    ref: "User"
-  },
+  therapists: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
+  clients: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
   slots: {
     monday: [{}],
     tuesday: [{}],

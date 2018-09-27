@@ -21,7 +21,7 @@ class Message extends Component {
       contacts: []
     };
 
-    // this._confirm = this._confirm.bind(this);
+    this._delteMail = this._deleteMail.bind(this);
     this._readLabel = this._readLabel.bind(this);
     this._composeMail = this._composeMail.bind(this);
     this._handleItemClick = this._handleItemClick.bind(this);
@@ -29,7 +29,11 @@ class Message extends Component {
   componentDidMount() {
     api.get(`/api/message`).then(contacts => {
       console.log(contacts);
-      this.setState({ contacts, activeItem: contacts[0].name, loading: false });
+      let activeItem = "";
+      if (contacts.length !== 0) {
+        activeItem = contacts[0].name;
+      }
+      this.setState({ contacts, activeItem: activeItem, loading: false });
     });
   }
 
@@ -40,6 +44,19 @@ class Message extends Component {
 
   _composeMail() {
     this.props.history.push("/messages/compose");
+  }
+  _deleteMail(id) {
+    console.log(this.state);
+    api
+      .delete("/api/message/" + id)
+      .then(data => {
+        console.log(data);
+        console.log(this.props);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.props.history.push("/messages");
   }
 
   _readLabel(id) {
@@ -77,7 +94,9 @@ class Message extends Component {
           />
           <Route
             path="/messages/:id"
-            render={props => <Mail readLabel={this._readLabel} {...props} />}
+            render={props => (
+              <Mail readLabel={this._readLabel} deleteMail={this._deleteMail} {...props} />
+            )}
           />
           <Route
             exact
@@ -85,9 +104,8 @@ class Message extends Component {
             render={() => (
               <List
                 composeMail={this._composeMail}
-                messages={
-                  this.state.contacts.find(el => el.name === this.state.activeItem).messages
-                }
+                contacts={this.state.contacts}
+                activeItem={this.state.activeItem}
               />
             )}
           />

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Message = require("../../models/Message");
+const User = require("../../models/User");
 
 router.get("/", (req, res) => {
   Message.find({ to: req.user._id })
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
             contacts[msg.from._id].counter++;
           }
 
-          contacts[msg.from._id].messages.push(msg);
+          contacts[msg.from._id].messages.unshift(msg);
         }
       }
       console.log(contacts);
@@ -51,6 +52,17 @@ router.get("/:id", (req, res) => {
     console.log(message);
     res.send(message);
   });
+});
+
+router.delete("/:id", (req, res) => {
+  Message.deleteOne({ _id: req.params.id })
+    .then(result => {
+      res.send(true);
+    })
+    .catch(error => {
+      console.log(error);
+      res.send(false);
+    });
 });
 
 router.post("/", (req, res) => {

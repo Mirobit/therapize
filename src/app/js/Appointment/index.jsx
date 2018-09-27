@@ -45,6 +45,7 @@ class Appointment extends Component {
             key={appointment._id}
             appointment={appointment}
             chat={this._chat}
+            delete={this._delete}
             user={this.props.user}
           />
         );

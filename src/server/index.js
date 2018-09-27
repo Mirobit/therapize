@@ -33,12 +33,14 @@ server.use(morgan("dev"));
 server.use(compression());
 server.use(fileUpload());
 server.use(bodyParser.json());
+favicon = require("serve-favicon");
 
 if (!process.env.IS_PRODUCTION) {
   server.use(express.static(path.join(__dirname, "../../dist")));
 }
 
 server.use(express.static(path.join(__dirname, "public")));
+server.use(favicon(__dirname + "/public/favicon.ico"));
 server.use("/api", apiRoutes);
 server.use(appRoutes);
 

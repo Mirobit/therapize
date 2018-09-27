@@ -21,43 +21,45 @@ router.get("/find", (req, res) => {
 
 router.post("/confirm", (req, res) => {
   console.log(req.body.therapist);
-  return new Appointment({
-    therapist: req.body.therapist,
-    day: req.body.slot.day,
-    starttime: req.body.slot.start,
-    endtime: req.body.slot.end,
-    duration: 25,
-    user: req.user._id,
-    inhouse: true,
-    roomid: crypto
-      .createHash("sha256")
-      .update(req.body.therapist + req.user._id + req.body.slot.day + req.body.slot.start)
-      .digest("hex"),
-    status: "Unconfirmed"
-  })
-    .save()
-    .then(appointment => {
-      User.findOneAndUpdate(
-        { _id: req.user._id },
-        { $push: { appointments: appointment._id } },
-        { new: true }
-      ).exec();
-      return appointment;
+  return (
+    new Appointment({
+      therapist: req.body.therapist,
+      day: req.body.slot.day,
+      starttime: req.body.slot.start,
+      endtime: req.body.slot.end,
+      duration: 25,
+      user: req.user._id,
+      inhouse: true,
+      roomid: crypto
+        .createHash("sha256")
+        .update(req.body.therapist + req.user._id + req.body.slot.day + req.body.slot.start)
+        .digest("hex"),
+      status: "Unconfirmed"
     })
-    .then(appointment => {
-      User.findOneAndUpdate(
-        { _id: req.body.therapist },
-        { $push: { appointments: appointment._id } },
-        { new: true }
-      ).exec();
-    })
-    .then(result => {
-      res.send(true);
-    })
-    .catch(error => {
-      console.log(error);
-      res.send(false);
-    });
+      .save()
+      .then(appointment => {
+        User.findOneAndUpdate(
+          { _id: req.user._id },
+          { $push: { appointments: appointment._id } },
+          { new: true }
+        ).exec();
+        return appointment;
+      })
+      // .then(appointment => {
+      //   User.findOneAndUpdate(
+      //     { _id: req.body.therapist },
+      //     { $push: { appointments: appointment._id } },
+      //     { new: true }
+      //   ).exec();
+      // })
+      .then(result => {
+        res.send(true);
+      })
+      .catch(error => {
+        console.log(error);
+        res.send(false);
+      })
+  );
 });
 
 router.post("/find", (req, res) => {
