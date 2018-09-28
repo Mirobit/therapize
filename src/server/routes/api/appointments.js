@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     Appointment.find({ therapist: req.user._id, status: { $ne: "Canceled" } })
       .populate({
         path: "user",
-        select: "name diagnose"
+        select: "name diagnose profilePicture"
       })
       .sort({ day: 1, starttime: 1 })
       .then(result => {
@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
     Appointment.find({ user: req.user._id, status: { $ne: "Canceled" } })
       .populate({
         path: "therapist",
-        select: "name"
+        select: "name profilePicture"
       })
       .sort([["day", 1]])
       .then(result => {

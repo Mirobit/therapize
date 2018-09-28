@@ -31,11 +31,11 @@ class Application extends React.Component {
 
   componentDidMount() {
     this._setUser();
-    // setInterval(() => {
-    //   api.get("/api/message/unreadcount/").then(counter => {
-    //     this.setState({ unreadcounter: counter.count });
-    //   });
-    // }, 30000);
+    setInterval(() => {
+      api.get("/api/message/unreadcount/").then(counter => {
+        this.setState({ unreadcounter: counter.count });
+      });
+    }, 4000);
   }
 
   componentWillUnmount() {

@@ -45,7 +45,6 @@ router.post("/confirm", (req, res) => {
           to: appointment.therapist,
           from: req.user._id,
           date: Date.now()
-          // dateStr: moment(req.body.date).format("ddd DD/MM/YYYY"),
         }).save();
         User.findOneAndUpdate(
           { _id: req.user._id },

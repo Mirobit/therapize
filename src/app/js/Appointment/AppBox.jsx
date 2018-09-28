@@ -85,7 +85,15 @@ const Appbox = props => {
         }}
       >
         <Card.Content>
-          <Image floated="right" size="tiny" src={props.user.profilePicture} />
+          <Image
+            floated="right"
+            size="tiny"
+            src={
+              props.user.role === "User"
+                ? props.appointment.therapist.profilePicture
+                : props.appointment.user.profilePicture
+            }
+          />
           <Card.Header>
             <span style={{ color: "#00A896" }}>
               <Icon name="clock outline" />
