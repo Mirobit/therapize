@@ -3,7 +3,6 @@ import { NavLink, Link } from "react-router-dom";
 import { Icon, Label, Menu } from "semantic-ui-react";
 
 const Navigation = props => {
-  console.log(props.counter);
   return (
     <div className="navigation">
       <div className="container nav-content">

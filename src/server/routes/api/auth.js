@@ -22,7 +22,7 @@ router.post("/sign-up", (req, res) => {
     })
     .then(user => {
       const token = jwt.sign(
-        { _id: user._id, email: user.email, profilePicture: user.profilePicture },
+        { _id: user._id, email: user.email, profilePicture: user.profilePicture, role: user.role },
         process.env.SECRET_JWT_PASSPHRASE
       );
       res.send({ token });
