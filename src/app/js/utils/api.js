@@ -1,33 +1,5 @@
 import axios from "axios";
 
-// EXAMPLE:
-// // 1. normal get request
-// api.get('/api').then(data => {
-//     console.log(data)
-// })
-
-// // 2. post request with body
-// api.post('/api/beer/new', { name: 'Augustiner' }).then(data => {
-//     console.log(data)
-// })
-
-// // 3. post request with body with an error
-// api.post('/api/beer/new', { name: 'Augustiner' })
-//     .then(data => {
-//         console.log(data)
-//     })
-//     .catch(err => {
-//         console.log(err.description) // display that on your page
-//     })
-
-// // 4. post request with files
-// api.post('/api/artwork/new', { name: 'Whatever' }, { artworkPicture: this.state.artworkPicture }).then(
-//     // use req.files.artworkPicture in the BACKEND
-//     data => {
-//         console.log(data)
-//     }
-// )
-
 const bodyRequest = (type, endpoint, body, files, uploadProgress) => {
   return new Promise((resolve, reject) => {
     let data;
