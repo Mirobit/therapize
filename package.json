@@ -25,7 +25,7 @@
         "compression": "^1.7.4",
         "crypto": "^1.0.1",
         "dotenv": "^6.2.0",
-        "express": "^4.16.3",
+        "express": "^4.17.3",
         "express-fileupload": "^1.1.9",
         "helmet": "^3.22.0",
         "jsonwebtoken": "^8.5.1",
